@@ -6,6 +6,7 @@ use crate::int_key::IntKey;
 
 #[derive(Debug)]
 pub enum Key<'a> {
+    Owned(Vec<u8>),
     Ref(&'a [u8]),
     Val8([u8; 1]),
     Val16([u8; 2]),
@@ -17,6 +18,7 @@ pub enum Key<'a> {
 impl<'a> AsRef<[u8]> for Key<'a> {
     fn as_ref(&self) -> &[u8] {
         match self {
+            Key::Owned(v) => v.as_slice(),
             Key::Ref(r) => r,
             Key::Val8(v) => v,
             Key::Val16(v) => v,
